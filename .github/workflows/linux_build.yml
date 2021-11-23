@@ -1,4 +1,4 @@
-name: ☁ Server Builds
+name: 🐧 Linux Builds
 on: [push, pull_request]
 
 # Global Settings
