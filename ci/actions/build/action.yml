@@ -1,4 +1,4 @@
-name: Build Godot
+name: Build Suada
 description: Build Suada with the provided options.
 inputs:
   target:
