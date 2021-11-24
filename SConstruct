@@ -14,6 +14,8 @@ opts.Add(EnumVariable('platform', "Compilation platform",
 opts.Add(EnumVariable('p', "Compilation target, alias for 'platform'",
          '', ['', 'windows', 'x11', 'linux', 'osx']))
 opts.Add(BoolVariable('use_llvm', "Use the LLVM / Clang compiler", 'no'))
+opts.Add(EnumVariable('godot_cpp_target', "Godot-cpp target",
+         'release', ['d', 'debug', 'r', 'release']))
 opts.Add(PathVariable('target_path', 'The path where the lib is installed.', 'bin/'))
 opts.Add(PathVariable('target_name', 'The library name.',
          'libSuada', PathVariable.PathAccept))
@@ -98,7 +100,7 @@ elif env['platform'] == "javascript":
     env['target_path'] += 'javascript/'
     cpp_library += '.javascript'
 
-if env['target'] in ('debug', 'd'):
+if env['godot_cpp_target'] in ('debug', 'd'):
     cpp_library += '.debug'
 else:
     cpp_library += '.release'

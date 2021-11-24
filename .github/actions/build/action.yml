@@ -2,7 +2,7 @@ name: Build Suada
 description: Build Suada with the provided options.
 inputs:
   target:
-    description: The scons target (debug/release_debug/release).
+    description: The scons target (debug/release).
     default: "debug"
   tools:
     description: If tools are to be built.
