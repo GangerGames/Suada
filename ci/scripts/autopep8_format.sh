@@ -2,11 +2,11 @@
 
 # File based from Godot engine: https://github.com/godotengine
 
-# This script runs black on all Python files in the repo.
+# This script runs autopep8 on all Python files in the repo.
 
 set -uo pipefail
 
-# Apply black.
+# Apply autopep8.
 echo -e "Formatting Python files..."
 PY_FILES=$(find \( -path "./.git" \
                 -o -path "./thirdparty" \
@@ -15,13 +15,13 @@ PY_FILES=$(find \( -path "./.git" \
                 -o -name "SCsub" \
                 -o -name "*.py" \
                 \) -print)
-black -l 100 $PY_FILES
+autopep8 --max-line-length 100 $PY_FILES
 
 git diff --color > patch.patch
 
 # If no patch has been generated all is OK, clean up, and exit.
 if [ ! -s patch.patch ] ; then
-    printf "Files in this commit comply with the black style rules.\n"
+    printf "Files in this commit comply with the autopep8 style rules.\n"
     rm -f patch.patch
     exit 0
 fi

@@ -7,7 +7,7 @@ concurrency:
 
 jobs:
   static-checks:
-    name: Static Checks (cpplint, black format, file format)
+    name: Static Checks (cpplint, autopep8 format, file format)
     runs-on: ubuntu-20.04
     steps:
       - name: Checkout
@@ -22,13 +22,13 @@ jobs:
       - name: Install dependencies
         run: |
           sudo apt-get install -qq dos2unix recode
-          sudo pip3 install cpplint black==21.10b0 pygments
+          sudo pip3 install cpplint autopep8 pylint pygments
       - name: File formatting checks (file_format.sh)
         run: |
           bash ./ci/scripts/file_format.sh
       - name: Style checks via cpplint (cpplint_format.sh)
         run: |
           bash ./ci/scripts/cpplint_format.sh
-      - name: Python style checks via black (black_format.sh)
+      - name: Python style checks via autopep8 (autopep8_format.sh)
         run: |
-          bash ./ci/scripts/black_format.sh
+          bash ./ci/scripts/autopep8_format.sh
