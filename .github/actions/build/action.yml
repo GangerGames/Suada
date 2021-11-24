@@ -32,5 +32,6 @@ runs:
           SCONS_CACHE_LIMIT: ${{ inputs.scons-cache-limit }}
       run: |
         echo "Building with flags:" ${{ env.SCONSFLAGS }}
+        mkdir bin
         scons platform=${{ inputs.platform }} target=${{ inputs.target }} --jobs=2 ${{ env.SCONSFLAGS }}
         ls -l bin/
