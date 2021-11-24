@@ -17,9 +17,9 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - name: Suada library (target=release_debug)
+          - name: Suada library (target=debug)
             cache-name: suada-lib
-            target: release_debug
+            target: debug
 
     steps:
       - uses: actions/checkout@v2

@@ -1,37 +1,35 @@
+<!-- omit in toc -->
 # Suada
 
+<!-- omit in toc -->
 # Index
 
-- [About](#about)
 - [Contributing](#contributing)
 - [Bugs?](#bugs)
-- [Honorable mentions?](#mentions)
+- [Honorable mentions](#honorable-mentions)
 - [License](#license)
 
-<a name="about"></a>
+<!-- omit in toc -->
 # Suada 0.1.0
 
 Dialogue system plugin for Godot 3
 
-<a name="contributing"></a>
-## Contributing
+# Contributing
 
 - If you find a bug then please report it on [GitHub Issues][issues].
 
 - If you have a feature request, or have written a game or demo that shows Suada in use, then please get in touch. We'd love to hear from you!
 
-<a name="bugs"></a>
-## Bugs?
+# Bugs?
 
 Please add them to the [Issue Tracker][issues] with as much info as possible, especially source code demonstrating the issue.
 
-<a name="mentions"></a>
-## Honorable mentions
+# Honorable mentions
 
 * [Friendlycosmonaut](https://twitter.com/friendly_cosmo) for the awesome Game Maker Studio dialogue system.
 
-<a name="license"></a>
-## License
+# License
+
 -----------------------------------------------------------------------
 
 <a href="http://opensource.org/licenses/BSD-2-Clause" target="_blank">
