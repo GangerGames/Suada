@@ -22,7 +22,11 @@ jobs:
             target: debug
 
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout repository
+        uses: actions/checkout@v2
+        with:
+          token: ${{ secrets.CI_TOKEN }}
+          submodules: true
 
       - name: Linux dependencies
         shell: bash
