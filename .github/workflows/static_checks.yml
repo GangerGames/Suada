@@ -17,7 +17,7 @@ jobs:
       - name: Make apt sources.list use the default Ubuntu repositories
         run: |
           sudo rm -f /etc/apt/sources.list.d/*
-          sudo cp -f ci/source_list/sources.list /etc/apt/sources.list
+          sudo cp -f ci/source_lists/source.lists /etc/apt/sources.list
           sudo apt-get update
       - name: Install dependencies
         run: |

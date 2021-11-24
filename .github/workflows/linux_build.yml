@@ -29,7 +29,7 @@ jobs:
         run: |
           # Azure repositories are not reliable, we need to prevent azure giving us packages.
           sudo rm -f /etc/apt/sources.list.d/*
-          sudo cp -f ci/source_list/sources.list /etc/apt/sources.list
+          sudo cp -f ci/source_lists/source.lists /etc/apt/sources.list
           sudo apt-get update
           # The actual dependencies
           sudo apt-get install build-essential pkg-config libx11-dev libxcursor-dev \
