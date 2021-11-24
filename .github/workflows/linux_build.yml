@@ -24,8 +24,7 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
-        with:
-          submodules: recursive
+        run: git submodule update --init --recursive
 
       - name: Linux dependencies
         shell: bash
