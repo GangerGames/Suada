@@ -73,7 +73,6 @@ static func parse(text: String, default_colour: Color) -> ParseReturn:
 
 	var it = 0
 	var it_original_text = 0
-	var type = 0
 
 	while it < text.length():
 		var letter: String = text[it]

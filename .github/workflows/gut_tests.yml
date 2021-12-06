@@ -18,4 +18,4 @@ jobs:
           lfs: true
       - name: Run tests
         run: |
-          godot --debug-collisions --path $PWD -d -s addons/gut/gut_cmdln.gd
+          godot --path $PWD -d -s addons/gut/gut_cmdln.gd
