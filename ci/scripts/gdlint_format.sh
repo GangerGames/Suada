@@ -17,6 +17,7 @@ while IFS= read -rd '' f; do
         if [[ "$f" == *"$extension" ]]; then
             # Run gdlint.
             gdlint "$f"
+            gdparse "$f"
             continue 2
         fi
     done

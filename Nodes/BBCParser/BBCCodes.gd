@@ -1,6 +1,5 @@
-
 # Effects BBCode.
-const BBCCodesMap: Dictionary = {
+const BBC_CODES_MAP: Dictionary = {
 	"normal": 0,
 	"shake": 1,
 	"wave": 2,
@@ -12,12 +11,15 @@ const BBCCodesMap: Dictionary = {
 }
 
 # Colour BBCodes.
-const BBCColourMap: Dictionary = {"white": Color.white, "red": Color.red}
+const BBC_COLOUR_MAP: Dictionary = {"white": Color.white, "red": Color.red}
 
 # BBCode regular expression.
-const BBCRexp: String = "\\[(shake|wave|colour|wave_colour|spin|pulse|flicker|colour)\\].*?\\[\\/\\1\\]"
+const BBC_REXP: String = (
+	"\\[(shake|wave|colour|wave_colour|spin|pulse|flicker|colour)\\]"
+	+ ".*?\\[\\/\\1\\]"
+)
 
 # Any BBCode regular expression.
 # Used in case a wrong one was read and we need to remove it.
 # It matches any BBCode, even not supported.
-const BBCAnyRexp: String = "\\[.*\\].*?\\[\\/.*\\]"
+const BBC_ANY_REXP: String = "\\[.*\\].*?\\[\\/.*\\]"

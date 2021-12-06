@@ -55,7 +55,7 @@ var _audio_cnt = 0
 var _text_speed = 0
 # var _text_speed_c = 0
 
-var _page = -1
+var _page = 0
 var _str_len = -1
 var _pause = false
 var _exiting = false
@@ -80,6 +80,14 @@ var _amplitude: int = 4
 var _freq: int = 2
 
 
+## Add a convesation and setup the dialog system.
+##
+## @param conversation The conversation.
+func add_conversation(conversation: Array) -> void:
+	_conversation = conversation
+	_setup()
+
+
 func _ready():
 	randomize()
 
@@ -89,7 +97,7 @@ func _ready():
 	_finished_effect = get_node("FinishEffect")
 
 	_portrait_frame = get_node("PortraitBox/PortraitSprite")
-	_portrait_frame.connect("animation_finished", self, "on_portrait_animation_finish")
+	_portrait_frame.connect("animation_finished", self, "_on_portrait_animation_finish")
 
 	_audio_player = get_node("DialogueAudioPlayer")
 
@@ -149,34 +157,11 @@ func _ready():
 		_dialogue_box.position.y + _dialogue_box_size.y / 2 - _offset.y / 2
 	)
 
-	var parsed_obj = BBCParser.Parse(
-		(
-			"Normal [shake]shake[/shake] [wave]wave[/wave] [colour=f9ff42]colour[/colour] "
-			+ "[colour=42ff6b55]colour with alpha[/colour] "
-			+ "[wave_colour]colour wave[/wave_colour] [spin]spin[/spin] "
-			+ "[spin][colour=c007bd]spin colour[/colour][/spin] [pulse]pulse[/pulse] "
-			+ "[flicker]flicker[/flicker] [wave]wave[/wave]"
-		),
-		_default_col
-	)
-
-	_conversation.append(
-		Dialog.new(
-			parsed_obj.parsed_text,
-			"res://addons/Suada/Assets/Portrait_base_anim.tres",
-			Types.DialogType.NORMAL,
-			parsed_obj.effects,
-			parsed_obj.colours
-		)
-	)
-
-	setup()
-
 
 func _process(_delta):
 	if _page < 0 or _page >= _conversation.size():
 		if _interact_key_pressed:
-			handle_exit(0.2)
+			_handle_exit(0.2)
 		return
 
 	# We check the type of dialogue to see if it is 1) "normal" or 2) a player choice dialogue.
@@ -191,24 +176,24 @@ func _process(_delta):
 				# event_perform(ev_other, ev_user0)
 				match _next_line[_page][0]:
 					-1:
-						handle_exit(0.2)
+						_handle_exit(0.2)
 						return
 					0:
-						set_portrait()
+						_set_portrait()
 						_page += 1
 					_:
 						_page = _next_line[_page][0]
 
-				setup()
+				_setup()
 			else:
-				handle_exit(0.5)
+				_handle_exit(0.5)
 	else:
 		if _chosen:
 			return
 
 		if _interact_key_pressed:
 			_chosen = true
-			handle_dialogue_choice()
+			_handle_dialogue_choice()
 
 			# 	# Change Choice
 			var change_choice = _down_key_pressed - _up_key_pressed
@@ -247,9 +232,9 @@ func _draw():
 			" ":
 				var nothing = 1
 			",", ".":
-				handle_pause(0.1)
+				_handle_pause(0.1)
 			"?", "!":
-				handle_pause(0.2)
+				_handle_pause(0.2)
 			_:
 				# Play the voice sound every 2 frames (you can change this number if this is too often)
 				var audio_increment: int = 2
@@ -406,7 +391,7 @@ func _input(event):
 		_down_key_pressed = 0
 
 
-func on_portrait_animation_finish():
+func _on_portrait_animation_finish():
 	_portrait_frame.stop()
 	_portrait_frame.animation = "Idle"
 	_animation_cnt = 0
@@ -416,7 +401,7 @@ func on_portrait_animation_finish():
 	)
 
 
-func setup() -> void:
+func _setup() -> void:
 	if _page < 0 or _page >= _conversation.size():
 		return
 
@@ -488,10 +473,10 @@ func setup() -> void:
 			cc += 1
 			it_str_len -= 1
 
-	set_portrait()
+	_set_portrait()
 
 
-func set_portrait() -> void:
+func _set_portrait() -> void:
 	var portrait: Portrait = _conversation[_page].get_portrait()
 
 	if portrait == null:
@@ -504,8 +489,8 @@ func set_portrait() -> void:
 
 
 ## Handle the dialogue choice
-func handle_dialogue_choice() -> void:
-	handle_pause(0.1)
+func _handle_dialogue_choice() -> void:
+	_handle_pause(0.1)
 
 	if _page + 1 < _conversation.size():
 		var nl = _next_line[_page]
@@ -518,20 +503,20 @@ func handle_dialogue_choice() -> void:
 			_:
 				_page = nl[_choice]
 
-		setup()
+		_setup()
 	else:
 		queue_free()
 
 	_chosen = false
 
 
-func handle_pause(time: float) -> void:
+func _handle_pause(time: float) -> void:
 	_pause = true
 	yield(get_tree().create_timer(time), "timeout")
 	_pause = false
 
 
-func handle_exit(time: float) -> void:
+func _handle_exit(time: float) -> void:
 	if _exiting:
 		return
 

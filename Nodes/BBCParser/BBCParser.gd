@@ -1,18 +1,15 @@
-## The BBCParser class
-##
-## @desc:
-##     An object to parse BBCode text.
-##
-
 const BBCCodes = preload("res://addons/Suada/Nodes/BBCParser/BBCCodes.gd")
 
 var _regex_bbc: RegEx = RegEx.new()
 var _regex_bbc_any: RegEx = RegEx.new()
 
-# _regex_bbc.compile(BBCCodes.BBCRexp)
-# _regex_bbc_any.compile(BBCCodes.BBCAnyRexp)
+# _regex_bbc.compile(BBCCodes.BBC_REXP)
+# _regex_bbc_any.compile(BBCCodes.BBC_ANY_REXP)
 
 
+## Effect location class.
+##
+## Holds the position and effect.
 class EffectLocation:
 	var position: int
 	var effect: int
@@ -22,6 +19,9 @@ class EffectLocation:
 		effect = ef
 
 
+## Colour location class.
+##
+## Holds the position and colour.
 class ColourLocation:
 	var position: int
 	var colour: Color
@@ -31,13 +31,26 @@ class ColourLocation:
 		colour = col
 
 
+## Parse return class.
+##
+## Holds the parsed text data.
 class ParseReturn:
 	var parsed_text: String = ""
 	var effects: Array = []
 	var colours: Array = []
 
 
-static func Parse(text: String, default_colour: Color) -> ParseReturn:
+## Parse a text to get the data to show it on the dialog.
+##
+## Returns a [ParseReturn] object with the data without BBCodes and a list of effects and colours
+## positions.
+##
+## If there is a wrong or unsupported BBCode, will be removed.
+##
+## @param text The text to parse.
+## @param default_colour The default colour of the dialog.
+## @returns A [ParseReturn] object.
+static func parse(text: String, default_colour: Color) -> ParseReturn:
 	var return_obj: ParseReturn = ParseReturn.new()
 
 	var it = 0
@@ -71,10 +84,10 @@ static func Parse(text: String, default_colour: Color) -> ParseReturn:
 
 				effect_it += 1
 
-			if effect != "colour" and !effect.empty() and effect in BBCCodes.BBCCodesMap:
+			if effect != "colour" and !effect.empty() and effect in BBCCodes.BBC_CODES_MAP:
 				return_obj.effects.append(
 					EffectLocation.new(
-						it_original_text, BBCCodes.BBCCodesMap[effect] if !is_out else 0
+						it_original_text, BBCCodes.BBC_CODES_MAP[effect] if !is_out else 0
 					)
 				)
 			elif effect == "colour":

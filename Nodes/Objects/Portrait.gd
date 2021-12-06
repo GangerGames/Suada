@@ -10,7 +10,11 @@ var _animation_trigger: int = 120 setget , get_animation_trigger
 var _animation_trigger_range: Vector2 = Vector2(100, 200) setget , get_animation_trigger_range
 
 
-func _init(portrait_path: String, animation_trigger: int = 100, animation_trigger_range: Vector2 = Vector2(100, 200)):
+func _init(
+	portrait_path: String,
+	animation_trigger: int = 100,
+	animation_trigger_range: Vector2 = Vector2(100, 200)
+):
 	_portrait_path = portrait_path
 	_animation_trigger = animation_trigger
 	_animation_trigger_range = animation_trigger_range
