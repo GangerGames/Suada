@@ -1,10 +1,28 @@
-const BBCCodes = preload("res://addons/Suada/Nodes/BBCParser/BBCCodes.gd")
+# Effects BBCode.
+const BBC_CODES_MAP: Dictionary = {
+	"normal": 0,
+	"shake": 1,
+	"wave": 2,
+	"colour": 3,
+	"wave_colour": 4,
+	"spin": 5,
+	"pulse": 6,
+	"flicker": 7
+}
 
-var _regex_bbc: RegEx = RegEx.new()
-var _regex_bbc_any: RegEx = RegEx.new()
+# Colour BBCodes.
+const BBC_COLOUR_MAP: Dictionary = {"white": Color.white, "red": Color.red}
 
-# _regex_bbc.compile(BBCCodes.BBC_REXP)
-# _regex_bbc_any.compile(BBCCodes.BBC_ANY_REXP)
+# BBCode regular expression.
+const BBC_REXP: String = (
+	"\\[(shake|wave|colour|wave_colour|spin|pulse|flicker|colour)\\]"
+	+ ".*?\\[\\/\\1\\]"
+)
+
+# Any BBCode regular expression.
+# Used in case a wrong one was read and we need to remove it.
+# It matches any BBCode, even not supported.
+const BBC_ANY_REXP: String = "\\[.*\\].*?\\[\\/.*\\]"
 
 
 ## Effect location class.
@@ -84,10 +102,10 @@ static func parse(text: String, default_colour: Color) -> ParseReturn:
 
 				effect_it += 1
 
-			if effect != "colour" and !effect.empty() and effect in BBCCodes.BBC_CODES_MAP:
+			if effect != "colour" and !effect.empty() and effect in BBC_CODES_MAP:
 				return_obj.effects.append(
 					EffectLocation.new(
-						it_original_text, BBCCodes.BBC_CODES_MAP[effect] if !is_out else 0
+						it_original_text, BBC_CODES_MAP[effect] if !is_out else 0
 					)
 				)
 			elif effect == "colour":
