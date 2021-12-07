@@ -18,7 +18,9 @@ IFS=$'\n\t'
 git grep -zIl '' |
 while IFS= read -rd '' f; do
     # Exclude some types of files.
-    if [[ "$f" == *"csproj" ]]; then
+    if [[ "$f" == "addons/gut/"* ]]; then
+        continue
+    elif [[ "$f" == *"csproj" ]]; then
         continue
     elif [[ "$f" == *"sln" ]]; then
         continue

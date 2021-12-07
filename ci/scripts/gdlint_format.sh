@@ -14,7 +14,9 @@ GD_FORMAT_FILE_EXTS=(".gd")
 git grep -zIl '' |
 while IFS= read -rd '' f; do
     for extension in ${GD_FORMAT_FILE_EXTS[@]}; do
-        if [[ "$f" == *"$extension" ]]; then
+        if [[ "$f" == "addons/gut/"* ]]; then
+            continue
+        elif [[ "$f" == *"$extension" ]]; then
             # Run gdlint.
             gdlint "$f"
             gdparse "$f"
