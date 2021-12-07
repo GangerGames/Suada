@@ -8,14 +8,18 @@ class_name Dialog
 const Types = preload("res://addons/Suada/Nodes/Objects/Types.gd")
 
 var _text: String = "" setget , get_text
+var _name: String = "" setget , get_name
 var _portrait: Portrait = null setget , get_portrait
 var _type: int = Types.DialogType.NORMAL setget , get_type
 var _effects: Array = [] setget , get_effects
 var _colours: Array = [] setget , get_colours
 
 
-func _init(text: String, portrait_path: String, type: int, effects: Array, colours: Array):
+func _init(
+	text: String, name: String, portrait_path: String, type: int, effects: Array, colours: Array
+):
 	_text = text
+	_name = name
 
 	if !portrait_path.empty():
 		_portrait = Portrait.new(portrait_path)
@@ -27,6 +31,10 @@ func _init(text: String, portrait_path: String, type: int, effects: Array, colou
 
 func get_text() -> String:
 	return _text
+
+
+func get_name() -> String:
+	return _name
 
 
 func get_portrait() -> Portrait:
