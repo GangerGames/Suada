@@ -37,11 +37,13 @@ var _audio_player: AudioStreamPlayer2D = null
 var _target_fps: int = Engine.target_fps if Engine.target_fps != 0 else 60
 
 var _dialogue_box_size: Vector2 = Vector2.ZERO
+var _name_box_size: Vector2 = Vector2.ZERO
 var _gui_size: Vector2 = Vector2.ZERO
 var _gui_diff: int = -1
 var _portrait_size: Vector2 = Vector2.ZERO
 
 var _dialog_text_pos: Vector2 = Vector2.ZERO
+var _name_box_text_pos: Vector2 = Vector2.ZERO
 
 var _finished_num: int = -1
 var _finished_spd: int = -1
@@ -112,6 +114,11 @@ func _ready():
 		dialogue_box_texture.get_height() * _scale_factor
 	)
 
+	_name_box_size = Vector2(
+		name_box_texture.get_width() * _scale_factor,
+		name_box_texture.get_height() * _scale_factor
+	)
+
 	var viewport = get_viewport().get_visible_rect()
 	_gui_size = viewport.size
 
@@ -143,9 +150,6 @@ func _ready():
 			- ((name_box_texture.get_height() - 1) / 2)
 		)
 	)
-
-	# name_box_text_x = name_box_x + ((name_box_texture.get_width() * scale_factor) / 2)
-	# name_box_text_y = name_box_y + y_buffer
 
 	# _finished_effect.position = Vector2(
 	# 	_dialogue_box.position.x + _dialogue_box_size.x / 2 - _offset.x,
@@ -214,6 +218,11 @@ func _process(_delta):
 func _draw():
 	if _page < 0 or _page >= _conversation.size():
 		return
+
+	var name_str = _conversation[_page].get_name()
+	if !name_str.empty():
+		# Draw name text
+		draw_string(_default_font, _name_box_text_pos, name_str, _default_col)
 
 	_animation_cnt += 1
 	if (
@@ -435,6 +444,12 @@ func _setup() -> void:
 			+ _dialogue_box_size.x / 2
 			- _offset.x
 		)
+
+	var name_str = _conversation[_page].get_name()
+	_name_box.visible = !name_str.empty()
+	if _name_box.visible:
+		_name_box_text_pos = _name_box.position - _default_font.get_string_size(name_str) / 2
+		_name_box_text_pos.y += _default_font.get_ascent()
 
 	# draw_set_font(font[page])
 	_char_size = _default_font.get_string_size("M")  # Gets new charSize under current font.
