@@ -4,6 +4,7 @@
 <!-- omit in toc -->
 # Index
 
+- [Sample](#sample)
 - [Contributing](#contributing)
 - [Bugs?](#bugs)
 - [Honorable mentions](#honorable-mentions)
@@ -13,6 +14,10 @@
 # Suada 0.1.0
 
 Dialogue system plugin for Godot 3
+
+# Sample
+
+![sample](readme_assets/suada_sample.gif)
 
 # Contributing
 
