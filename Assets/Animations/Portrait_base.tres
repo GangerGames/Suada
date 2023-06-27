@@ -1,0 +1,13 @@
+[gd_resource type="AnimatedTexture" load_steps=3 format=3 uid="uid://bfh0mg8ngqci2"]
+
+[ext_resource type="Texture2D" uid="uid://cgq3ulsyuh0ja" path="res://addons/Suada/Assets/Sprites/portrait_base_idle1.png" id="1_05plf"]
+[ext_resource type="Texture2D" uid="uid://brrexw4jtnjag" path="res://addons/Suada/Assets/Sprites/portrait_base_idle3.png" id="2_0r51a"]
+
+[resource]
+frames = 3
+frame_0/texture = ExtResource("1_05plf")
+frame_0/duration = 0.12
+frame_1/texture = ExtResource("2_0r51a")
+frame_1/duration = 0.25
+frame_2/texture = ExtResource("1_05plf")
+frame_2/duration = 0.12

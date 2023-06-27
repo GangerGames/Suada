@@ -1,4 +1,5 @@
-# Dialog types enum.
-# - 1 = NORMAL
-# - 2 = CHOICE
-enum DialogType { NORMAL, CHOICE }
+## Dialog types.
+enum DialogType {
+  NORMAL, ## NORMAL
+  CHOICE ## CHOICE
+}
