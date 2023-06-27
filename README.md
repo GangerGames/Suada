@@ -13,7 +13,7 @@
 <!-- omit in toc -->
 # Suada 0.1.0
 
-Dialogue system plugin for Godot 3
+Dialogue system plugin for Godot 4
 
 # Sample
 
@@ -39,12 +39,12 @@ Please add them to the [Issue Tracker][issues] with as much info as possible, es
 
 <a href="http://opensource.org/licenses/BSD-2-Clause" target="_blank">
 <img align="right" width="100" height="137"
- src="https://opensource.org/files/OSI_Approved_License.png">
+ src="https://i0.wp.com/opensource.org/wp-content/uploads/2006/07/OSI_Approved_License.png">
 </a>
 
   BSD 2-Clause License
 
-  Copyright (c) 2021, Elias Serrano
+  Copyright (c) 2023, Elias Serrano
   All rights reserved.
 
   Redistribution and use in source and binary forms, with or without

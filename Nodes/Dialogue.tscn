@@ -1,56 +1,173 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=26 format=3 uid="uid://x6mnw54gmo8v"]
 
-[ext_resource path="res://addons/Suada/Nodes/DialogueSystem.gd" type="Script" id=1]
-[ext_resource path="res://addons/Suada/Assets/portrait_frame.png" type="Texture" id=2]
-[ext_resource path="res://addons/Suada/Assets/dialogue_box.png" type="Texture" id=3]
-[ext_resource path="res://addons/Suada/Assets/name_box.png" type="Texture" id=4]
-[ext_resource path="res://addons/Suada/Assets/indicator.png" type="Texture" id=5]
-[ext_resource path="res://Assets/Fonts/FixedsysExcelsior.tres" type="DynamicFont" id=6]
-[ext_resource path="res://addons/Suada/Assets/vocal_sound_1.ogg" type="AudioStream" id=7]
+[ext_resource type="Script" path="res://addons/Suada/Nodes/DialogueSystem.gd" id="1"]
+[ext_resource type="Theme" uid="uid://ddetutsupn7m0" path="res://addons/Suada/Assets/Themes/name_theme.tres" id="2"]
+[ext_resource type="Theme" uid="uid://bruovco3l4r7k" path="res://addons/Suada/Assets/Themes/main_theme.tres" id="3"]
+[ext_resource type="FontFile" uid="uid://spyvb3ij26jf" path="res://addons/Suada/Assets/Fonts/FSEX302.ttf" id="3_0wogf"]
+[ext_resource type="Texture2D" uid="uid://d4d46x70xfeaa" path="res://addons/Suada/Assets/Sprites/indicator.png" id="5"]
+[ext_resource type="AudioStream" uid="uid://bqivgiq4ued10" path="res://addons/Suada/Assets/Sounds/vocal_sound_short_1.ogg" id="7"]
+[ext_resource type="Script" path="res://addons/Suada/Nodes/DialogueBox.gd" id="8"]
+[ext_resource type="Script" path="res://addons/Suada/Nodes/PortraitBox.gd" id="9"]
+[ext_resource type="SpriteFrames" uid="uid://b5l6qnwf46vyd" path="res://addons/Suada/Assets/Animations/Portrait_base_anim.tres" id="9_rdh7m"]
+[ext_resource type="Script" path="res://addons/Suada/Nodes/Effects/RichTextEffectGhost.gd" id="9_ydpfn"]
+[ext_resource type="Script" path="res://addons/Suada/Nodes/DialogueAudioPlayer.gd" id="10"]
+[ext_resource type="Script" path="res://addons/Suada/Nodes/Effects/RichTextEffectPulse.gd" id="10_mlhx6"]
+[ext_resource type="Script" path="res://addons/Suada/Nodes/FinishEffect.gd" id="10_typqo"]
+[ext_resource type="Script" path="res://addons/Suada/Nodes/PortraitSprite.gd" id="11"]
+[ext_resource type="Script" path="res://addons/Suada/Nodes/Effects/RichTextEffectMatrix.gd" id="11_53617"]
+[ext_resource type="Script" path="res://addons/Suada/Nodes/NameText.gd" id="12_mja5r"]
+[ext_resource type="Script" path="res://addons/Suada/Nodes/Effects/RichTextEffectShift.gd" id="12_njesn"]
+[ext_resource type="Script" path="res://addons/Suada/Nodes/Effects/RichTextEffectFlicker.gd" id="14_emv3q"]
 
-[node name="Dialogue" type="Node2D"]
-script = ExtResource( 1 )
-_voice_snd_effect = ExtResource( 7 )
-_default_font = ExtResource( 6 )
+[sub_resource type="RichTextEffect" id="RichTextEffect_omcs0"]
+script = ExtResource("9_ydpfn")
 
-[node name="DialogueBox" type="Node2D" parent="."]
-position = Vector2( 176, 55 )
-z_index = -1
+[sub_resource type="RichTextEffect" id="RichTextEffect_mfy4b"]
+script = ExtResource("10_mlhx6")
 
-[node name="DialogueBoxSprite" type="Sprite" parent="DialogueBox"]
-texture = ExtResource( 3 )
+[sub_resource type="RichTextEffect" id="RichTextEffect_p8ibk"]
+script = ExtResource("11_53617")
 
-[node name="PortraitBox" type="Node2D" parent="."]
-position = Vector2( 32, 55 )
+[sub_resource type="RichTextEffect" id="RichTextEffect_i3ro0"]
+script = ExtResource("12_njesn")
 
-[node name="PortraitBackground" type="ColorRect" parent="PortraitBox"]
-margin_left = -32.0
-margin_top = -32.0
-margin_right = 32.0
-margin_bottom = 32.0
-color = Color( 0.321569, 0.223529, 0.34902, 1 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
+[sub_resource type="GDScript" id="GDScript_1km1y"]
+script/source = "@tool
+extends RichTextEffect
+class_name RichTextEffectSpin
 
-[node name="PortraitSprite" type="AnimatedSprite" parent="PortraitBox"]
-scale = Vector2( 0.93, 0.93 )
+# Syntax: [spin freq=5.0 span=10.0][/spin]
 
-[node name="PortraitFrameSprite" type="Sprite" parent="PortraitBox"]
-texture = ExtResource( 2 )
+# Define the tag name.
+var bbcode = \"spin\"
 
-[node name="NameBox" type="Node2D" parent="."]
-position = Vector2( 102, 12 )
-z_index = -1
+func _process_custom_fx(char_fx):
+	# Get parameters, or use the provided default value if missing.
+	var speed = char_fx.env.get(\"freq\", 5.0)
+	
+	var val: float = char_fx.elapsed_time * 100
+	var shift: float = sin(val * PI * speed / SuadaGlobals.TARGET_FPS)
+	var rotation = shift / 2
+	char_fx.offset = Vector2(rotation, -rotation)
 
-[node name="NameBoxSprite" type="Sprite" parent="NameBox"]
-texture = ExtResource( 4 )
+	return true
+"
 
-[node name="FinishEffect" type="Node2D" parent="."]
+[sub_resource type="RichTextEffect" id="RichTextEffect_qerkb"]
+script = SubResource("GDScript_1km1y")
+
+[sub_resource type="RichTextEffect" id="RichTextEffect_50bjh"]
+script = ExtResource("14_emv3q")
+
+[node name="Dialogue" type="Control"]
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -384.0
+offset_top = 200.0
+offset_right = -384.0
+offset_bottom = 200.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(2, 2)
+script = ExtResource("1")
+_voice_snd_effect = ExtResource("7")
+_default_font = ExtResource("3_0wogf")
+
+[node name="DialogueContainer" type="HBoxContainer" parent="."]
+layout_mode = 0
+offset_right = 384.0
+offset_bottom = 70.0
+size_flags_vertical = 8
+theme_override_constants/separation = 0
+
+[node name="PortraitBox" type="MarginContainer" parent="DialogueContainer"]
+custom_minimum_size = Vector2(72, 72)
+layout_mode = 2
+script = ExtResource("9")
+
+[node name="Panel" type="Panel" parent="DialogueContainer/PortraitBox"]
+layout_mode = 2
+theme = ExtResource("3")
+
+[node name="Portrait" type="AnimatedSprite2D" parent="DialogueContainer/PortraitBox/Panel"]
+position = Vector2(4, 4)
+sprite_frames = ExtResource("9_rdh7m")
+animation = &"idle"
+centered = false
+script = ExtResource("11")
+
+[node name="TextBox" type="MarginContainer" parent="DialogueContainer"]
+custom_minimum_size = Vector2(320, 70)
+layout_mode = 2
+size_flags_horizontal = 3
+script = ExtResource("8")
+
+[node name="Panel" type="Panel" parent="DialogueContainer/TextBox"]
+layout_mode = 2
+theme = ExtResource("3")
+
+[node name="Text" type="RichTextLabel" parent="DialogueContainer/TextBox/Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 6.0
+offset_top = 3.5
+offset_right = -6.0
+offset_bottom = -3.5
+grow_horizontal = 2
+grow_vertical = 2
+auto_translate = false
+theme = ExtResource("3")
+bbcode_enabled = true
+text = "Hello world world world world worlds!.
+Second line
+Third line
+Fourth line"
+scroll_active = false
+custom_effects = [SubResource("RichTextEffect_omcs0"), SubResource("RichTextEffect_mfy4b"), SubResource("RichTextEffect_p8ibk"), SubResource("RichTextEffect_i3ro0"), SubResource("RichTextEffect_qerkb"), SubResource("RichTextEffect_50bjh")]
+visible_characters_behavior = 2
+
+[node name="FinishEffect" type="Sprite2D" parent="DialogueContainer/TextBox"]
+position = Vector2(311, 63.5)
 rotation = 1.5708
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("5")
+script = ExtResource("10_typqo")
 
-[node name="FinishEffectSprite" type="Sprite" parent="FinishEffect"]
-scale = Vector2( 0.15, 0.15 )
-texture = ExtResource( 5 )
+[node name="NameBox" type="MarginContainer" parent="."]
+custom_minimum_size = Vector2(64, 25)
+layout_mode = 0
+offset_left = 74.0
+offset_top = -23.5
+offset_right = 138.0
+offset_bottom = 1.5
 
-[node name="DialogueAudioPlayer" type="AudioStreamPlayer2D" parent="."]
+[node name="Panel" type="Panel" parent="NameBox"]
+layout_mode = 2
+theme = ExtResource("2")
+
+[node name="TextBox" type="MarginContainer" parent="NameBox"]
+layout_mode = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+
+[node name="Text" type="RichTextLabel" parent="NameBox/TextBox"]
+layout_mode = 2
+theme = ExtResource("2")
+bbcode_enabled = true
+text = "Super long name"
+fit_content = true
+scroll_active = false
+autowrap_mode = 0
+visible_characters_behavior = 2
+script = ExtResource("12_mja5r")
+
+[node name="AudioPlayer" type="AudioStreamPlayer2D" parent="."]
+position = Vector2(0, -24)
+script = ExtResource("10")
