@@ -1,15 +1,17 @@
 @tool
-extends RichTextEffect
 class_name RichTextEffectMatrix
+extends RichTextEffect
 
 # Syntax: [matrix clean=2.0 dirty=1.0 span=50][/matrix]
 
 # Define the tag name.
 var bbcode = "matrix"
 
+
 # Gets TextServer for retrieving font information.
 func get_text_server():
 	return TextServerManager.get_primary_interface()
+
 
 func _process_custom_fx(char_fx):
 	# Get parameters, or use the provided default value if missing.
@@ -19,11 +21,11 @@ func _process_custom_fx(char_fx):
 
 	var value = char_fx.glyph_index
 
-	var matrix_time = fmod(char_fx.elapsed_time + (char_fx.range.x / float(text_span)), \
-						clear_time + dirty_time)
+	var matrix_time = fmod(
+		char_fx.elapsed_time + (char_fx.range.x / float(text_span)), clear_time + dirty_time
+	)
 
-	matrix_time = 0.0 if matrix_time < clear_time else \
-					(matrix_time - clear_time) / dirty_time
+	matrix_time = 0.0 if matrix_time < clear_time else (matrix_time - clear_time) / dirty_time
 
 	if matrix_time > 0.0:
 		value = int(1 * matrix_time * (126 - 65))

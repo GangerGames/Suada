@@ -1,22 +1,15 @@
 extends Control
 
-
 const OFFSET: int = 10
-
-var _name_box_panel: Panel = null
-var _name_box_text: RichTextLabel = null
 
 var _text_diff: int = -1
 
+@onready var _name_box_panel: Panel = $NameBoxPanel
+@onready var _name_box_text: RichTextLabel = $NameTextBox
+
 
 func _ready():
-	_name_box_panel = get_node("NameBoxPanel") as Panel
-	_name_box_text = get_node("NameBoxText") as RichTextLabel
-
-	_text_diff = (
-		_name_box_panel.size.x
-		- ceil(_name_box_text.size.x * _name_box_text.scale.x)
-	)
+	_text_diff = (_name_box_panel.size.x - ceil(_name_box_text.size.x * _name_box_text.scale.x))
 
 
 func _resize_box(width: int) -> void:

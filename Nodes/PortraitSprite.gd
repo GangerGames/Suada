@@ -1,7 +1,5 @@
-extends AnimatedSprite2D
-
 class_name PortraitFrame
-
+extends AnimatedSprite2D
 
 ## Portrait states.
 const PORTRAIT_STATES: Dictionary = {
@@ -26,8 +24,8 @@ func _ready():
 	connect("animation_finished", Callable(self, "_on_portrait_animation_finish"))
 
 
-func _process(delta):
-	_animation_cnt += 1 * delta
+func _process(_delta):
+	_animation_cnt += 1
 	if _state == PORTRAIT_STATES.idle and is_playing() and _animation_cnt >= _animation_trigger:
 		play()
 
@@ -45,13 +43,14 @@ func set_portrait_sprite(portrait: SpriteFrames) -> void:
 
 
 func play_animation(animation_str: String) -> void:
-	if animation_str in PORTRAIT_ANIM_NAMES and animation_str in PORTRAIT_STATES:
-		stop()
-		animation = PORTRAIT_ANIM_NAMES[animation_str]
-		_state = PORTRAIT_STATES[animation]
-		play()
-	else:
+	if animation_str not in PORTRAIT_ANIM_NAMES and animation_str not in PORTRAIT_STATES:
 		printerr("Wrong animation name.")
+		return
+
+	stop()
+	animation = PORTRAIT_ANIM_NAMES[animation_str]
+	_state = PORTRAIT_STATES[animation]
+	play()
 
 
 func _on_portrait_animation_finish() -> void:
@@ -60,6 +59,5 @@ func _on_portrait_animation_finish() -> void:
 	_state = PORTRAIT_STATES.idle
 	_animation_cnt = 0
 	_animation_trigger = (
-		randi() % (_animation_trigger_range.y as int)
-		+ _animation_trigger_range.x as int
+		randi() % (_animation_trigger_range.y as int) + _animation_trigger_range.x as int
 	)

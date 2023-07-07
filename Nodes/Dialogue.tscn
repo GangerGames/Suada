@@ -1,11 +1,9 @@
-[gd_scene load_steps=26 format=3 uid="uid://x6mnw54gmo8v"]
+[gd_scene load_steps=24 format=3 uid="uid://x6mnw54gmo8v"]
 
 [ext_resource type="Script" path="res://addons/Suada/Nodes/DialogueSystem.gd" id="1"]
 [ext_resource type="Theme" uid="uid://ddetutsupn7m0" path="res://addons/Suada/Assets/Themes/name_theme.tres" id="2"]
 [ext_resource type="Theme" uid="uid://bruovco3l4r7k" path="res://addons/Suada/Assets/Themes/main_theme.tres" id="3"]
-[ext_resource type="FontFile" uid="uid://spyvb3ij26jf" path="res://addons/Suada/Assets/Fonts/FSEX302.ttf" id="3_0wogf"]
 [ext_resource type="Texture2D" uid="uid://d4d46x70xfeaa" path="res://addons/Suada/Assets/Sprites/indicator.png" id="5"]
-[ext_resource type="AudioStream" uid="uid://bqivgiq4ued10" path="res://addons/Suada/Assets/Sounds/vocal_sound_short_1.ogg" id="7"]
 [ext_resource type="Script" path="res://addons/Suada/Nodes/DialogueBox.gd" id="8"]
 [ext_resource type="Script" path="res://addons/Suada/Nodes/PortraitBox.gd" id="9"]
 [ext_resource type="SpriteFrames" uid="uid://b5l6qnwf46vyd" path="res://addons/Suada/Assets/Animations/Portrait_base_anim.tres" id="9_rdh7m"]
@@ -74,8 +72,6 @@ grow_horizontal = 2
 grow_vertical = 2
 scale = Vector2(2, 2)
 script = ExtResource("1")
-_voice_snd_effect = ExtResource("7")
-_default_font = ExtResource("3_0wogf")
 
 [node name="DialogueContainer" type="HBoxContainer" parent="."]
 layout_mode = 0

@@ -1,0 +1,26 @@
+name: 🧾 Format
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+  pull_request:
+    branches:
+      - main
+      - develop
+
+jobs:
+  gdlint:
+    name: GDFormat
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Install dependencies
+        run: |
+          sudo pip3 install -r requirements.txt
+
+      - name: Format checks via gdformat
+        run: gdformat -d **/*.gd
