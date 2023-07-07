@@ -1,7 +1,5 @@
-extends RichTextLabel
-
 class_name NameTextBox
-
+extends RichTextLabel
 
 var character_name: String = "Name":
 	get:

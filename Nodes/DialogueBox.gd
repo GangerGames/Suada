@@ -1,13 +1,11 @@
+class_name DialogueTextBox
 extends Control
 
-class_name DialogueTextBox
-
+var _text_next_char_it: float = 0
 
 @onready var _text_label = $Panel/Text as RichTextLabel
-@onready var _portrait_box: PortraitBox = get_node("../PortraitBox")
+@onready var _portrait_box: PortraitBox = $"../PortraitBox"
 @onready var _finished_effect: Sprite2D = $FinishEffect
-
-var _text_next_char_it: float = 0
 
 
 func _ready():
@@ -22,9 +20,9 @@ func _process(_delta):
 	if _text_label.visible_ratio == 1:
 		_finished_effect.visible = true
 		return
-		
+
 	var text = _text_label.text
-		
+
 	_text_next_char_it = (
 		SuadaGlobals.text_speed
 		if _text_next_char_it >= 1
@@ -34,7 +32,7 @@ func _process(_delta):
 
 	var letter = text[_text_label.visible_characters - 1]
 	if SuadaGlobals.vocal_sound:
-		if (letter == "a" or letter == "e" or letter == "i" or letter == "o" or letter == "u"):
+		if letter == "a" or letter == "e" or letter == "i" or letter == "o" or letter == "u":
 			_portrait_box.play_voice()
 	else:
 		_portrait_box.play_voice()
@@ -44,7 +42,7 @@ func set_text(text: String, font: Font, colour: Color = Color.WHITE, visible: bo
 	_text_label.text = text
 	_text_label.add_theme_font_override("normal_font", font)
 	_text_label.add_theme_color_override("default_color", colour)
-	_text_label.visible_characters = 0
+	_text_label.visible_characters = -1 if visible else 0
 
 
 func show_all_text():

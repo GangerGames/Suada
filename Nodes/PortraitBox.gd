@@ -1,15 +1,8 @@
+class_name PortraitBox
 extends Control
 
-class_name PortraitBox
-
-
-var _portrait: AnimatedSprite2D = null
-var _audio_player: AudioStreamPlayer2D = null
-
-
-func _ready():
-	_portrait = $Panel/Portrait
-	_audio_player = get_node("../../AudioPlayer")
+@onready var _audio_player: AudioStreamPlayer2D = $"../../AudioPlayer"
+@onready var _portrait: AnimatedSprite2D = $Panel/Portrait
 
 
 func setup(portrait: SpriteFrames, audio: AudioStream) -> void:
