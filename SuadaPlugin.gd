@@ -2,7 +2,6 @@
 
 extends EditorPlugin
 
-
 const AUTOLOAD_NAME = "SuadaGlobals"
 
 

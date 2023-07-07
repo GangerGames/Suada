@@ -1,6 +1,6 @@
 [gd_resource type="FontFile" load_steps=2 format=3 uid="uid://do40he6kkb8dk"]
 
-[ext_resource type="FontFile" uid="uid://dywiivy6ntfp0" path="res://Assets/Fonts/FSEX302.ttf" id="1"]
+[ext_resource type="FontFile" uid="uid://bq0g08pyvyx4p" path="res://Assets/Fonts/FSEX302.ttf" id="1"]
 
 [resource]
 fallbacks = Array[Font]([ExtResource("1")])

@@ -22,9 +22,15 @@ var type: int = Types.DialogType.NORMAL:
 	get:
 		return type
 
+var choices: Array[String] = []:
+	get:
+		return choices
+
 
 ## Initialise the dialog object.
-func _init(text: String, name: String, portrait_path: String, type: int):
+func _init(
+	text: String, name: String, portrait_path: String, type: int, choices: Array[String] = []
+):
 	self.text = text
 	self.name = name
 
@@ -32,3 +38,4 @@ func _init(text: String, name: String, portrait_path: String, type: int):
 		portrait = Portrait.new(portrait_path)
 
 	self.type = type
+	self.choices = choices

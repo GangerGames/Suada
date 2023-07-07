@@ -4,34 +4,34 @@ extends Control
 const Types = preload("res://addons/Suada/Nodes/Objects/Types.gd")
 
 # Customise (FOR USER)
-@export var _voice_snd_effect: AudioStream = null
-
+@export
+var _voice_snd_effect: AudioStream = load("res://addons/Suada/Assets/Sounds/vocal_sound_1.ogg")
 @export var _default_font: Font = load("res://addons/Suada/Assets/Fonts/FixedsysExcelsior.tres")
+@export var _default_color: Color = Color.WHITE
+@export var _default_choice: Color = Color.YELLOW
+@export var _interact_key: String = "key_a"
+@export var _up_key: String = "key_up"
+@export var _down_key: String = "key_down"
 
-var _interact_key: String = "key_a"
+# Setup
 var _interact_key_pressed: bool = false
-var _up_key: String = "key_up"
 var _up_key_pressed: int = 0
-var _down_key: String = "key_down"
 var _down_key_pressed: int = 0
-
 var _scale_factor = 1
 var _offset: Vector2 = Vector2(10 * _scale_factor, 14 * _scale_factor)
 
-@onready var _dialogue_box: DialogueTextBox = $DialogueContainer/TextBox
-@onready var _name_box: MarginContainer = $NameBox
-@onready var _name_box_text: NameTextBox = $NameBox/TextBox/Text
-@onready var _portrait_box: MarginContainer = $DialogueContainer/PortraitBox
-
-# Setup (LEAVE THIS STUFF)
 var _page = 0
 var _next_line: Array = []
 var _pause = false
 var _exiting = false
 var _chosen = false
 var _choice = 0
-
 var _conversation: Array[Dialog] = []
+
+@onready var _dialogue_box: DialogueTextBox = $DialogueContainer/TextBox
+@onready var _name_box: MarginContainer = $NameBox
+@onready var _name_box_text: NameTextBox = $NameBox/TextBox/Text
+@onready var _portrait_box: MarginContainer = $DialogueContainer/PortraitBox
 
 
 ## Add a convesation and setup the dialog system.
@@ -41,9 +41,13 @@ func add_conversation(conversation: Array) -> void:
 
 
 func _set_portrait(portrait: Portrait) -> void:
-	_portrait_box.setup(
-		load(portrait.portrait_path) as SpriteFrames, _voice_snd_effect
-	)
+	_portrait_box.setup(load(portrait.portrait_path) as SpriteFrames, _voice_snd_effect)
+
+
+func _reset_keys_states() -> void:
+	_interact_key_pressed = false
+	_up_key_pressed = 0
+	_down_key_pressed = 0
 
 
 func _process(_delta):
@@ -52,52 +56,38 @@ func _process(_delta):
 			_handle_exit(0.2)
 		return
 
-	# We check the type of dialogue to see if it is 1) "normal" or 2) a player choice dialogue.
-	if _conversation[_page].type == Types.DialogType.NORMAL:
+	if not _dialogue_box.is_complete():
 		if _interact_key_pressed:
-			if not _dialogue_box.is_complete():
-				_dialogue_box.show_all_text()
-			elif _page + 1 < _conversation.size():
-				# Only increase page IF page + 1,is less than the total number of entries.
-				match _next_line[_page][0]:
-					-1:
-						_handle_exit(0.2)
-						return
-					0:
-						_set_portrait(_conversation[_page].portrait)
-						_page += 1
-					_:
-						_page = _next_line[_page][0]
+			_dialogue_box.show_all_text()
+			_reset_keys_states()
+		return
 
+	# Interact behaviour
+	if _interact_key_pressed:
+		if _conversation[_page].type == Types.DialogType.NORMAL:
+			if _page + 1 < _conversation.size():
+				_page += 1
+				_set_portrait(_conversation[_page].portrait)
 				_setup()
 			else:
 				_handle_exit(0.5)
-	else:
-		if _chosen:
-			return
-
-		if _interact_key_pressed:
+		elif _conversation[_page].type == Types.DialogType.CHOICE and not _chosen:
 			_chosen = true
 			_handle_dialogue_choice()
+	# Change Choice
+	elif _down_key_pressed or _up_key_pressed:
+		var change_choice = _down_key_pressed - _up_key_pressed
+		if change_choice != 0:
+			_choice += change_choice
 
-			# Change Choice
-			var change_choice = _down_key_pressed - _up_key_pressed
-			if change_choice != 0:
-				_choice += change_choice
+		if _choice < 0:
+			_choice = len(_conversation[_page].choices) - 1
+		elif _choice > len(_conversation[_page].choices) - 1:
+			_choice = 0
 
-			if _choice < 0:
-				_choice = _conversation[_page].get_text().length - 1
-			elif _choice > _conversation[_page].get_text().length - 1:
-				_choice = 0
+		_handle_dialogue_change_choice(true)
 
-	_interact_key_pressed = false
-
-	queue_redraw()
-
-
-func _draw():
-	if _page < 0 or _page >= _conversation.size():
-		return
+	_reset_keys_states()
 
 
 func _input(event):
@@ -106,15 +96,17 @@ func _input(event):
 	else:
 		_interact_key_pressed = false
 
-	if event.is_action_pressed(_up_key):
-		_up_key_pressed = 1
-	else:
-		_up_key_pressed = 0
+	# Do not check up/down keys if text is not complete
+	if _dialogue_box.is_complete():
+		if event.is_action_pressed(_up_key):
+			_up_key_pressed = 1
+		else:
+			_up_key_pressed = 0
 
-	if event.is_action_pressed(_down_key):
-		_down_key_pressed = 1
-	else:
-		_down_key_pressed = 0
+		if event.is_action_pressed(_down_key):
+			_down_key_pressed = 1
+		else:
+			_down_key_pressed = 0
 
 
 func _setup() -> void:
@@ -130,8 +122,12 @@ func _setup() -> void:
 	if _name_box.visible:
 		_name_box_text.change_name(name_str)
 
-	if _conversation[_page].type == 0:
-		_dialogue_box.set_text(_conversation[_page].text, _default_font)
+	var text = _conversation[_page].text
+	if _conversation[_page].type == Types.DialogType.CHOICE:
+		_handle_dialogue_change_choice()
+		return
+
+	_dialogue_box.set_text(text, _default_font)
 
 
 ## Handle the dialogue choice
@@ -154,6 +150,21 @@ func _handle_dialogue_choice() -> void:
 		queue_free()
 
 	_chosen = false
+
+
+func _handle_dialogue_change_choice(visible: bool = false) -> void:
+	var text = _conversation[_page].text
+	for choice_index in _conversation[_page].choices.size():
+		var choice_text = _conversation[_page].choices[choice_index]
+
+		text += "\n"
+
+		if choice_index == _choice:
+			text += "[color=" + _default_choice.to_html() + "]" + choice_text + "[/color]"
+		else:
+			text += choice_text
+
+	_dialogue_box.set_text(text, _default_font, _default_color, visible)
 
 
 func _handle_pause(time: float) -> void:
