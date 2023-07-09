@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://addons/Suada/Nodes/DialogueSystem.gd" id="1"]
 [ext_resource type="Theme" uid="uid://ddetutsupn7m0" path="res://addons/Suada/Assets/Themes/name_theme.tres" id="2"]
 [ext_resource type="Theme" uid="uid://bruovco3l4r7k" path="res://addons/Suada/Assets/Themes/main_theme.tres" id="3"]
-[ext_resource type="Texture2D" uid="uid://dhgxqqok7bm8a" path="res://addons/Suada/Assets/Sprites/indicator.png" id="5"]
+[ext_resource type="Texture2D" uid="uid://d4d46x70xfeaa" path="res://addons/Suada/Assets/Sprites/indicator.png" id="5"]
 [ext_resource type="Script" path="res://addons/Suada/Nodes/DialogueBox.gd" id="8"]
 [ext_resource type="Script" path="res://addons/Suada/Nodes/PortraitBox.gd" id="9"]
 [ext_resource type="SpriteFrames" uid="uid://b5l6qnwf46vyd" path="res://addons/Suada/Assets/Animations/Portrait_base_anim.tres" id="9_rdh7m"]

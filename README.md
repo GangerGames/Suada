@@ -5,19 +5,27 @@
 # Index
 
 - [Sample](#sample)
+- [Future features](#future-features)
 - [Contributing](#contributing)
 - [Bugs?](#bugs)
-- [Honorable mentions](#honorable-mentions)
 - [License](#license)
 
 <!-- omit in toc -->
-# Suada 0.1.0
+# Suada 0.1.1
 
 Dialogue system plugin for Godot 4
+
+# What's new in 0.1.1?
+
+- Show dialogue choices.
 
 # Sample
 
 ![sample](readme_assets/suada_sample.gif)
+
+# Future features
+
+- Check the Github project page: [link](https://github.com/orgs/GangerGames/projects/1/views/1)
 
 # Contributing
 
@@ -28,10 +36,6 @@ Dialogue system plugin for Godot 4
 # Bugs?
 
 Please add them to the [Issue Tracker][issues] with as much info as possible, especially source code demonstrating the issue.
-
-# Honorable mentions
-
-* [Friendlycosmonaut](https://twitter.com/friendly_cosmo) for the awesome Game Maker Studio dialogue system.
 
 # License
 
