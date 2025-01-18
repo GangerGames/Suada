@@ -1,12 +1,9 @@
 [gd_resource type="FontFile" load_steps=2 format=3 uid="uid://do40he6kkb8dk"]
 
-[ext_resource type="FontFile" uid="uid://bq0g08pyvyx4p" path="res://Assets/Fonts/FSEX302.ttf" id="1"]
+[ext_resource type="FontFile" uid="uid://spyvb3ij26jf" path="res://addons/Suada_bk/Assets/Fonts/FSEX302.ttf" id="1"]
 
 [resource]
 fallbacks = Array[Font]([ExtResource("1")])
-face_index = null
-embolden = null
-transform = null
 cache/0/16/0/ascent = 0.0
 cache/0/16/0/descent = 0.0
 cache/0/16/0/underline_position = 0.0

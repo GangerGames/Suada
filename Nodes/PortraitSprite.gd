@@ -2,13 +2,13 @@ class_name PortraitFrame
 extends AnimatedSprite2D
 
 ## Portrait states.
-const PORTRAIT_STATES: Dictionary = {
+const PORTRAIT_STATES: Dictionary[String, int] = {
 	"idle": 0,  ## Idle.
 	"talk": 1,  ## Talking.
 }
 
 ## Portrait animations names
-const PORTRAIT_ANIM_NAMES: Dictionary = {
+const PORTRAIT_ANIM_NAMES: Dictionary[String, String] = {
 	"idle": "idle",  ## Idle.
 	"talk": "talk",  ## Talk
 }

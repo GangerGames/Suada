@@ -1,7 +1,7 @@
 [gd_resource type="Theme" load_steps=4 format=3 uid="uid://ddetutsupn7m0"]
 
 [ext_resource type="FontFile" uid="uid://do40he6kkb8dk" path="res://addons/Suada/Assets/Fonts/FixedsysExcelsior.tres" id="1"]
-[ext_resource type="Texture2D" uid="uid://csr38a60osub6" path="res://addons/Suada/Assets/Sprites/name_box_9_tile.png" id="2"]
+[ext_resource type="Texture2D" uid="uid://csr38a60osub6" path="res://addons/Suada_bk/Assets/Sprites/name_box_9_tile.png" id="2"]
 
 [sub_resource type="StyleBoxTexture" id="2"]
 texture = ExtResource("2")
