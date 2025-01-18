@@ -1,3 +1,4 @@
+class_name DialogueAudioPlayer
 extends AudioStreamPlayer2D
 
 
@@ -13,7 +14,7 @@ func set_voice_sound(audio: AudioStream):
 ## @param wait_to_play If true, waits until the last sound was played.
 func play_voice_sound(wait_to_play: bool = true):
 	if wait_to_play:
-		if !self.playing:
-			self.play()
+		if !playing:
+			play()
 	else:
-		self.play()
+		play()

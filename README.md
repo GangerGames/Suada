@@ -11,13 +11,13 @@
 - [License](#license)
 
 <!-- omit in toc -->
-# Suada 0.1.1
+# Suada 0.2.0
 
 Dialogue system plugin for Godot 4
 
-# What's new in 0.1.1?
+# What's new in 0.2.0?
 
-- Show dialogue choices.
+- Dialogue choices.
 
 # Sample
 

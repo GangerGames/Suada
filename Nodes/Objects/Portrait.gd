@@ -6,18 +6,11 @@
 ##     so it triggers the animation in a random time number between the range.
 ##
 class_name Portrait
+extends Resource
 
-var portrait_path: String = "":
-	get:
-		return portrait_path
-
-var animation_trigger: int = 120:
-	get:
-		return animation_trigger
-
-var animation_trigger_range: Vector2 = Vector2(100, 200):
-	get:
-		return animation_trigger_range
+var portrait_path: String = ""
+var animation_trigger: int = 120
+var animation_trigger_range: Vector2 = Vector2(100, 200)
 
 
 func _init(

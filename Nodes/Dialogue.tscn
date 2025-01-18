@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=3 uid="uid://x6mnw54gmo8v"]
+[gd_scene load_steps=24 format=3 uid="uid://besgwi2vkunl3"]
 
 [ext_resource type="Script" path="res://addons/Suada/Nodes/DialogueSystem.gd" id="1"]
 [ext_resource type="Theme" uid="uid://ddetutsupn7m0" path="res://addons/Suada/Assets/Themes/name_theme.tres" id="2"]

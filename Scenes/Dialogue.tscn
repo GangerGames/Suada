@@ -1,0 +1,194 @@
+[gd_scene load_steps=28 format=3 uid="uid://x6mnw54gmo8v"]
+
+[ext_resource type="Script" uid="uid://7u5tl70iop21" path="res://addons/Suada_bk/Nodes/DialogueSystem.gd" id="1"]
+[ext_resource type="Theme" uid="uid://ddetutsupn7m0" path="res://addons/Suada/Assets/Themes/name_theme.tres" id="2"]
+[ext_resource type="Theme" uid="uid://bruovco3l4r7k" path="res://addons/Suada/Assets/Themes/main_theme.tres" id="3"]
+[ext_resource type="Texture2D" uid="uid://d4d46x70xfeaa" path="res://addons/Suada_bk/Assets/Sprites/indicator.png" id="5"]
+[ext_resource type="Script" uid="uid://dxciertla70xt" path="res://addons/Suada_bk/Nodes/DialogueBox.gd" id="8"]
+[ext_resource type="Script" uid="uid://by5tek2mm1kds" path="res://addons/Suada_bk/Nodes/PortraitBox.gd" id="9"]
+[ext_resource type="SpriteFrames" uid="uid://b5l6qnwf46vyd" path="res://addons/Suada/Assets/Animations/Portrait_base_anim.tres" id="9_rdh7m"]
+[ext_resource type="Script" uid="uid://blrkxba5rjrdd" path="res://addons/Suada_bk/Nodes/Effects/RichTextEffectGhost.gd" id="9_ydpfn"]
+[ext_resource type="Script" uid="uid://bisrw25bck2i6" path="res://addons/Suada_bk/Nodes/DialogueAudioPlayer.gd" id="10"]
+[ext_resource type="Script" uid="uid://biw6a0o6espjc" path="res://addons/Suada_bk/Nodes/Effects/RichTextEffectPulse.gd" id="10_mlhx6"]
+[ext_resource type="Script" uid="uid://cvnq24ncd7wdb" path="res://addons/Suada_bk/Nodes/FinishEffect.gd" id="10_typqo"]
+[ext_resource type="Script" uid="uid://wx5n10oc1vki" path="res://addons/Suada_bk/Nodes/PortraitSprite.gd" id="11"]
+[ext_resource type="Script" uid="uid://cojx35wpxirrm" path="res://addons/Suada_bk/Nodes/Effects/RichTextEffectMatrix.gd" id="11_53617"]
+[ext_resource type="Script" uid="uid://5yswxgvifti8" path="res://addons/Suada_bk/Nodes/Effects/RichTextEffectFlicker.gd" id="11_bbs34"]
+[ext_resource type="Script" uid="uid://bbvp37cw5mk81" path="res://addons/Suada_bk/Nodes/Effects/RichTextEffectSpin.gd" id="12_2n2xh"]
+[ext_resource type="Script" uid="uid://dt3sbbh26vbd8" path="res://addons/Suada_bk/Nodes/NameText.gd" id="12_mja5r"]
+[ext_resource type="Script" uid="uid://drmvnbvsiehsq" path="res://addons/Suada_bk/Nodes/Effects/RichTextEffectShift.gd" id="12_njesn"]
+
+[sub_resource type="RichTextEffect" id="RichTextEffect_omcs0"]
+script = ExtResource("9_ydpfn")
+
+[sub_resource type="RichTextEffect" id="RichTextEffect_mfy4b"]
+script = ExtResource("10_mlhx6")
+
+[sub_resource type="RichTextEffect" id="RichTextEffect_p8ibk"]
+script = ExtResource("11_53617")
+
+[sub_resource type="RichTextEffect" id="RichTextEffect_i3ro0"]
+script = ExtResource("12_njesn")
+
+[sub_resource type="RichTextEffect" id="RichTextEffect_kkw1g"]
+script = ExtResource("11_bbs34")
+
+[sub_resource type="RichTextEffect" id="RichTextEffect_s5tcp"]
+script = ExtResource("12_2n2xh")
+
+[sub_resource type="GDScript" id="GDScript_ad1ir"]
+script/source = "@tool
+class_name RichTextWait
+extends RichTextEffect
+
+# Syntax: [wait time=2]
+
+var bbcode := \"wait\"
+
+
+func _process_custom_fx(char_fx: CharFXTransform) -> bool:
+	var wait_time: float = char_fx.env.get(\"time\", 1.0)
+	var speed: float = char_fx.env.get(\"speed\", 16.0)
+
+	if char_fx.elapsed_time <= wait_time:
+		char_fx.visible = false
+		return true
+
+	char_fx.visible = false
+	if char_fx.elapsed_time > ((char_fx.relative_index / speed) + wait_time):
+		char_fx.visible = true
+
+	return true
+"
+
+[sub_resource type="RichTextEffect" id="RichTextEffect_xw4hv"]
+script = SubResource("GDScript_ad1ir")
+
+[sub_resource type="GDScript" id="GDScript_qmumq"]
+script/source = "@tool
+class_name RichTextEffectPause
+extends RichTextEffect
+
+var bbcode := \"pause\"
+var current_char: int = 0
+
+func _process_custom_fx(char_fx: CharFXTransform) -> bool:
+	var waitTime: float = char_fx.env.get(\"time\", 1.0)
+	var speed: float = char_fx.env.get(\"speed\", 16.0)
+	
+	if char_fx.elapsed_time > waitTime:
+		char_fx.visible = false
+		if float(char_fx.elapsed_time) > ( (float(char_fx.relative_index) / speed) + float(waitTime) ):
+			char_fx.visible = true
+	else:
+		char_fx.visible = false
+	return true
+"
+
+[sub_resource type="RichTextEffect" id="RichTextEffect_jiwwu"]
+script = SubResource("GDScript_qmumq")
+
+[node name="Dialogue" type="Control"]
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -384.0
+offset_top = 200.0
+offset_right = -384.0
+offset_bottom = 200.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(2, 2)
+script = ExtResource("1")
+
+[node name="DialogueContainer" type="HBoxContainer" parent="."]
+layout_mode = 0
+offset_right = 392.0
+offset_bottom = 72.0
+size_flags_vertical = 8
+theme_override_constants/separation = 0
+
+[node name="PortraitBox" type="MarginContainer" parent="DialogueContainer"]
+custom_minimum_size = Vector2(72, 72)
+layout_mode = 2
+script = ExtResource("9")
+
+[node name="Panel" type="Panel" parent="DialogueContainer/PortraitBox"]
+layout_mode = 2
+theme = ExtResource("3")
+
+[node name="Portrait" type="AnimatedSprite2D" parent="DialogueContainer/PortraitBox/Panel"]
+position = Vector2(4, 4)
+sprite_frames = ExtResource("9_rdh7m")
+animation = &"idle"
+centered = false
+script = ExtResource("11")
+
+[node name="TextBox" type="MarginContainer" parent="DialogueContainer"]
+custom_minimum_size = Vector2(320, 70)
+layout_mode = 2
+size_flags_horizontal = 3
+script = ExtResource("8")
+
+[node name="Panel" type="Panel" parent="DialogueContainer/TextBox"]
+layout_mode = 2
+theme = ExtResource("3")
+
+[node name="Text" type="RichTextLabel" parent="DialogueContainer/TextBox/Panel"]
+auto_translate_mode = 2
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 6.0
+offset_top = 3.5
+offset_right = -6.0
+offset_bottom = -3.5
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("3")
+bbcode_enabled = true
+scroll_active = false
+custom_effects = [SubResource("RichTextEffect_omcs0"), SubResource("RichTextEffect_mfy4b"), SubResource("RichTextEffect_p8ibk"), SubResource("RichTextEffect_i3ro0"), SubResource("RichTextEffect_kkw1g"), SubResource("RichTextEffect_s5tcp"), SubResource("RichTextEffect_xw4hv"), SubResource("RichTextEffect_jiwwu")]
+visible_characters_behavior = 2
+
+[node name="FinishEffect" type="Sprite2D" parent="DialogueContainer/TextBox"]
+position = Vector2(311, 63.5)
+rotation = 1.5708
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("5")
+script = ExtResource("10_typqo")
+
+[node name="NameBox" type="MarginContainer" parent="."]
+custom_minimum_size = Vector2(64, 25)
+layout_mode = 0
+offset_left = 74.0
+offset_top = -24.0
+offset_right = 138.0
+offset_bottom = 1.0
+
+[node name="Panel" type="Panel" parent="NameBox"]
+layout_mode = 2
+theme = ExtResource("2")
+
+[node name="TextBox" type="MarginContainer" parent="NameBox"]
+layout_mode = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+
+[node name="Text" type="RichTextLabel" parent="NameBox/TextBox"]
+layout_mode = 2
+theme = ExtResource("2")
+bbcode_enabled = true
+fit_content = true
+scroll_active = false
+autowrap_mode = 0
+visible_characters_behavior = 2
+script = ExtResource("12_mja5r")
+
+[node name="AudioPlayer" type="AudioStreamPlayer2D" parent="."]
+script = ExtResource("10")

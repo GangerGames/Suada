@@ -1,7 +1,5 @@
+class_name DialogueSystem
 extends Control
-
-# Imports
-const Types = preload("res://addons/Suada/Nodes/Objects/Types.gd")
 
 # Customise (FOR USER)
 @export
@@ -26,7 +24,7 @@ var _pause = false
 var _exiting = false
 var _chosen = false
 var _choice = 0
-var _conversation: Array[Dialog] = []
+var _conversation: Dictionary[int, Dialog] = {}
 
 @onready var _dialogue_box: DialogueTextBox = $DialogueContainer/TextBox
 @onready var _name_box: MarginContainer = $NameBox
@@ -35,7 +33,7 @@ var _conversation: Array[Dialog] = []
 
 
 ## Add a convesation and setup the dialog system.
-func add_conversation(conversation: Array) -> void:
+func add_conversation(conversation: Dictionary[int, Dialog]) -> void:
 	_conversation = conversation
 	_setup()
 
@@ -65,8 +63,8 @@ func _process(_delta):
 	# Interact behaviour
 	if _interact_key_pressed:
 		if _conversation[_page].type == Types.DialogType.NORMAL:
-			if _page + 1 < _conversation.size():
-				_page += 1
+			_page = _conversation[_page].next
+			if _page != -1:
 				_set_portrait(_conversation[_page].portrait)
 				_setup()
 			else:
@@ -109,12 +107,21 @@ func _input(event):
 			_down_key_pressed = 0
 
 
+func _reset() -> void:
+	_choice = 0
+	_chosen = false
+	_pause = false
+
+
 func _setup() -> void:
+	_reset()
+
 	_portrait_box.setup(
 		load(_conversation[0].portrait.portrait_path) as SpriteFrames, _voice_snd_effect
 	)
 
 	if _page < 0 or _page >= _conversation.size():
+		printerr("Wrong conversation position.")
 		return
 
 	var name_str = _conversation[_page].name
@@ -134,28 +141,23 @@ func _setup() -> void:
 func _handle_dialogue_choice() -> void:
 	_handle_pause(0.1)
 
-	if _page + 1 < _conversation.size():
-		var nl = _next_line[_page]
-		match nl[_choice]:
-			-1:
-				queue_free()
-				return
-			0:
-				_page += 1
-			_:
-				_page = nl[_choice]
-
-		_setup()
-	else:
+	if _choice > _conversation.size():
+		printerr("Choice position out of conversation.")
 		queue_free()
+		return
 
-	_chosen = false
+	if _choice == -1:
+		queue_free()
+		return
+
+	_page = _conversation[_page].choices[_choice].next
+	_setup()
 
 
 func _handle_dialogue_change_choice(visible: bool = false) -> void:
 	var text = _conversation[_page].text
 	for choice_index in _conversation[_page].choices.size():
-		var choice_text = _conversation[_page].choices[choice_index]
+		var choice_text = _conversation[_page].choices[choice_index].text
 
 		text += "\n"
 
